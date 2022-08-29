@@ -90,7 +90,8 @@ const catalogueContainer = document.getElementById('catalogue');
 const btnClear = document.getElementById('btn-clear').addEventListener('click', () => clearCart());
 const total = document.getElementById('total');
 
-let cart=[];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
 
 //2: Poblar o inyectar o renderizar las cards dentro del catalogo
 
@@ -124,9 +125,11 @@ function buyProduct(product){
     if(!exists){
       product.q = 1;
       cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
     }else{
       const index = cart.indexOf(product);
       cart[index].q++;
+      localStorage.setItem('cart', JSON.stringify(cart));
     }
 
   //cart.push(product);
@@ -168,8 +171,10 @@ function delProduct(product){
   
   if(product.q === 1){
     cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
   }else{
     cart[index].q--;
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
 
 
@@ -179,11 +184,12 @@ function delProduct(product){
 
 function clearCart(){
   cart = [];
-  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  total.innerHTML = '';
   updateCart();
 }
 
-
+updateCart();
 
 
 
